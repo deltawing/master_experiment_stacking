@@ -1,6 +1,7 @@
 # Use wavelet transform combined with stacking algorithm to predict protein-protein interactions
 Pinsan Xu, Jun Luo, Tongyi Dou*
 * Corresponding author:douty@dlut.edu.cn
+
 Aim at predict protein-protein interactions using protein's primary sequence.
 
 ## Requirements
