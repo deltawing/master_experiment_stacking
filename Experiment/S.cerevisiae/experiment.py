@@ -390,11 +390,11 @@ with open(opposite_path+"/normalized_feature.csv") as C:
 with open(opposite_path+"/fasta_of_Bakersyeast.out.csv") as B:
     fasta=csv.reader(B)
     locate_fasta=transfer_fasta(fasta)
-with open(opposite_path+"/Positive_H.pylori.csv") as A:
+with open(opposite_path+"/Positive_S.cerevisiae.csv") as A:
     dip_matrix=csv.reader(A)
     #PseAAC_feature_rows, AC_feature_rows, LD_feature_rows, CT_feature_rows,
     DWT_Positive_feature_rows=construct_array(dip_matrix,locate_feature,locate_fasta,'1')
-with open(opposite_path+"/Negative_H.pylori.csv") as Q:
+with open(opposite_path+"/Negative_S.cerevisiae.csv") as Q:
     dip_matrix=csv.reader(Q)
     DWT_Negative_feature_rows=construct_array(dip_matrix,locate_feature,locate_fasta,'0')
     DWT_feature=DWT_Negative_feature_rows+DWT_Positive_feature_rows
