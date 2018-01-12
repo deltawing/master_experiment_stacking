@@ -219,20 +219,10 @@ def Local_descriptors(protein_array):
     return part_vector
     
 def Construct_63_vector(part_array):
-    simple_7=[0,0,0,0,0,0,0]
-    marix_7_7=[[0,0,0,0,0,0,0],
-               [0,0,0,0,0,0,0],
-               [0,0,0,0,0,0,0],
-               [0,0,0,0,0,0,0],
-               [0,0,0,0,0,0,0],
-               [0,0,0,0,0,0,0],
-               [0,0,0,0,0,0,0]]
-    simple_21=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-    simple_35=[0,0,0,0,0,0,0,
-               0,0,0,0,0,0,0,
-               0,0,0,0,0,0,0,
-               0,0,0,0,0,0,0,
-               0,0,0,0,0,0,0]
+    simple_7=[0 for i in range(7)]
+    marix_7_7=[[0 for i in range(7)] for j in range(7)]
+    simple_21=[0 for i in range(21)]
+    simple_35=[0 for i in range(35)]
     for i in range(len(part_array)):
         simple_7[part_array[i]-1]+=1
         if (i<(len(part_array)-1) and part_array[i]!=part_array[i+1]):
