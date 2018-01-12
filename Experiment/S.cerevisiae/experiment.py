@@ -24,26 +24,10 @@ def transfer_feature(inputlist):
     'K':[],'L':[],'M':[],'N':[],'P':[],'Q':[],'R':[],'S':[],'T':[],'V':[],
     'W':[],'Y':[]}
     for row in inputlist:
-        feature_hash['A']+=[float(row[0])]
-        feature_hash['C']+=[float(row[1])]
-        feature_hash['D']+=[float(row[2])]
-        feature_hash['E']+=[float(row[3])]
-        feature_hash['F']+=[float(row[4])]
-        feature_hash['G']+=[float(row[5])]
-        feature_hash['H']+=[float(row[6])]
-        feature_hash['I']+=[float(row[7])]
-        feature_hash['K']+=[float(row[8])]
-        feature_hash['L']+=[float(row[9])]
-        feature_hash['M']+=[float(row[10])]
-        feature_hash['N']+=[float(row[11])]
-        feature_hash['P']+=[float(row[12])]
-        feature_hash['Q']+=[float(row[13])]
-        feature_hash['R']+=[float(row[14])]
-        feature_hash['S']+=[float(row[15])]
-        feature_hash['T']+=[float(row[16])]
-        feature_hash['V']+=[float(row[17])]
-        feature_hash['W']+=[float(row[18])]
-        feature_hash['Y']+=[float(row[19])]
+        i = 0
+        for j in feature_hash:
+            feature_hash[j]+=[float(row[i])]
+            i += 1
     return feature_hash   
 
 def transfer_fasta(fasta):
@@ -147,27 +131,30 @@ def Take_Obvious_item(X):
         Q[np.argmax(Q)]=0  
     Y+=[me_mean,me_var]
     return Y
+
+def new_description(protein_array):
+    local = []
+    for i in range(len(protein_array)):
+        if (protein_array[i] in ['A', 'G', 'V']):
+            local+=[1]
+        elif (protein_array[i] in ['I', 'L', 'F', 'P']):
+            local+=[2]
+        elif (protein_array[i] in ['Y', 'M', 'T', 'S']):
+            local+=[3]
+        elif (protein_array[i] in ['H', 'N', 'Q', 'W']):
+            local+=[4]
+        elif (protein_array[i] in ['R','K']):
+            local+=[5]
+        elif (protein_array[i] in ['D', 'E']):
+            local+=[6]
+        elif (protein_array[i]=='C'):
+            local+=[7]
+        else :
+            local+=[7]
+    return local
     
 def Conjoint_triad(protein_array):
-    local_operate_array=[]
-    for i in range(len(protein_array)):
-        if (protein_array[i]=='A' or protein_array[i]=='G' or protein_array[i]=='V'):
-            local_operate_array+=[1]
-        elif (protein_array[i]=='I' or protein_array[i]=='L' or protein_array[i]=='F' or protein_array[i]=='P'):
-            local_operate_array+=[2]
-        elif (protein_array[i]=='Y' or protein_array[i]=='M' or protein_array[i]=='T' or protein_array[i]=='S'):
-            local_operate_array+=[3]
-        elif (protein_array[i]=='H' or protein_array[i]=='N' or protein_array[i]=='Q' or protein_array[i]=='W'):
-            local_operate_array+=[4]
-        elif (protein_array[i]=='R' or protein_array[i]=='K'):
-            local_operate_array+=[5]
-        elif (protein_array[i]=='D' or protein_array[i]=='E'):
-            local_operate_array+=[6]
-        elif (protein_array[i]=='C'):
-            local_operate_array+=[7]
-        else :
-            local_operate_array+=[7]
-    #print(local_operate_array)
+    local_operate_array = new_description(protein_array)
     vector_3_matrix=[]
     for a in range(7):
         for b in range(7):
@@ -181,25 +168,7 @@ def Conjoint_triad(protein_array):
     return CT_array
     
 def Local_descriptors(protein_array):
-    local_operate_array=[]
-    for i in range(len(protein_array)):
-        if (protein_array[i]=='A' or protein_array[i]=='G' or protein_array[i]=='V'):
-            local_operate_array+=[1]
-        elif (protein_array[i]=='I' or protein_array[i]=='L' or protein_array[i]=='F' or protein_array[i]=='P'):
-            local_operate_array+=[2]
-        elif (protein_array[i]=='Y' or protein_array[i]=='M' or protein_array[i]=='T' or protein_array[i]=='S'):
-            local_operate_array+=[3]
-        elif (protein_array[i]=='H' or protein_array[i]=='N' or protein_array[i]=='Q' or protein_array[i]=='W'):
-            local_operate_array+=[4]
-        elif (protein_array[i]=='R' or protein_array[i]=='K'):
-            local_operate_array+=[5]
-        elif (protein_array[i]=='D' or protein_array[i]=='E'):
-            local_operate_array+=[6]
-        elif (protein_array[i]=='C'):
-            local_operate_array+=[7]
-        else :
-            local_operate_array+=[7]
-    #print(local_operate_array)
+    local_operate_array = new_description(protein_array)
     A_point=math.floor(len(protein_array)/4-1)
     B_point=math.floor(len(protein_array)/2-1)
     C_point=math.floor(len(protein_array)/4*3-1)
@@ -218,20 +187,10 @@ def Local_descriptors(protein_array):
     return part_vector
     
 def Construct_63_vector(part_array):
-    simple_7=[0,0,0,0,0,0,0]
-    marix_7_7=[[0,0,0,0,0,0,0],
-               [0,0,0,0,0,0,0],
-               [0,0,0,0,0,0,0],
-               [0,0,0,0,0,0,0],
-               [0,0,0,0,0,0,0],
-               [0,0,0,0,0,0,0],
-               [0,0,0,0,0,0,0]]
-    simple_21=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-    simple_35=[0,0,0,0,0,0,0,
-               0,0,0,0,0,0,0,
-               0,0,0,0,0,0,0,
-               0,0,0,0,0,0,0,
-               0,0,0,0,0,0,0]
+    simple_7=[0 for i in range(7)]
+    marix_7_7=[[0 for i in range(7)] for j in range(7)]
+    simple_21=[0 for i in range(21)]
+    simple_35=[0 for i in range(35)]
     for i in range(len(part_array)):
         simple_7[part_array[i]-1]+=1
         if (i<(len(part_array)-1) and part_array[i]!=part_array[i+1]):
@@ -273,7 +232,7 @@ def PseAAC(protein_array,locate_feature):
     AA_frequency={'A':[0],'C':[0],'D':[0],'E':[0],'F':[0],'G':[0],'H':[0],'I':[0],
     'K':[0],'L':[0],'M':[0],'N':[0],'P':[0],'Q':[0],'R':[0],'S':[0],'T':[0],'V':[0],
     'W':[0],'Y':[0]}
-    A_class_feature=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    A_class_feature=[0 for i in range(20)]
     B_class_feature=[]
     sum_frequency=0
     sum_occurrence_frequency=0
@@ -286,7 +245,7 @@ def PseAAC(protein_array,locate_feature):
     for m in AA_frequency:
         if (sum_frequency==0):
             #print(protein_array)
-            s=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+            s=[0 for i in range(35)]
             return s
         else:    
             AA_frequency[m][0]/=sum_frequency
@@ -299,42 +258,20 @@ def PseAAC(protein_array,locate_feature):
     for l in range(nambda):
         B_class_feature[l]=(B_class_feature[l]*omega/Pu_under)*100
     
-    A_class_feature[0]=AA_frequency['A'][0]/Pu_under*100
-    A_class_feature[1]=AA_frequency['C'][0]/Pu_under*100
-    A_class_feature[2]=AA_frequency['D'][0]/Pu_under*100
-    A_class_feature[3]=AA_frequency['E'][0]/Pu_under*100
-    A_class_feature[4]=AA_frequency['F'][0]/Pu_under*100
-    A_class_feature[5]=AA_frequency['G'][0]/Pu_under*100
-    A_class_feature[6]=AA_frequency['H'][0]/Pu_under*100
-    A_class_feature[7]=AA_frequency['I'][0]/Pu_under*100
-    A_class_feature[8]=AA_frequency['K'][0]/Pu_under*100
-    A_class_feature[9]=AA_frequency['L'][0]/Pu_under*100
-    A_class_feature[10]=AA_frequency['M'][0]/Pu_under*100
-    A_class_feature[11]=AA_frequency['N'][0]/Pu_under*100
-    A_class_feature[12]=AA_frequency['P'][0]/Pu_under*100
-    A_class_feature[13]=AA_frequency['Q'][0]/Pu_under*100
-    A_class_feature[14]=AA_frequency['R'][0]/Pu_under*100
-    A_class_feature[15]=AA_frequency['S'][0]/Pu_under*100
-    A_class_feature[16]=AA_frequency['T'][0]/Pu_under*100
-    A_class_feature[17]=AA_frequency['V'][0]/Pu_under*100
-    A_class_feature[18]=AA_frequency['W'][0]/Pu_under*100
-    A_class_feature[19]=AA_frequency['Y'][0]/Pu_under*100
+    j = 0
+    for i in AA_frequency:
+        A_class_feature[j]=AA_frequency[i][0]/Pu_under*100
+        j += 1
     class_feature=A_class_feature+B_class_feature
     return class_feature
 
 def Auto_Covariance(protein_array,locate_feature):
     lg=30 #will affect 'ac_array' down below
-    AC_array=[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
-    mean_feature=[0,0,0,0,0,0,0]
+    AC_array=[[0 for i in range(lg)]for j in range(7)]
+    mean_feature=[0 for i in range(7)]
     for j in range(len(mean_feature)):
         for i in range(len(protein_array)):
-            if (protein_array[i]=='X' or protein_array[i]=='U' or protein_array[i]==' '):
+            if (protein_array[i] in ['X', 'U', ' ']):
                 continue
             mean_feature[j]+=locate_feature[protein_array[i]][j]
     for k in range(len(mean_feature)):
@@ -351,7 +288,7 @@ def Auto_Covariance(protein_array,locate_feature):
 def AcSUM(protein_array,lag,mean_feature,ac_fea):
     phychem_sum=0
     for i in range (len(protein_array)-lag):
-        if(protein_array[i]=='X' or protein_array[i+lag]=='X' or protein_array[i]=='U' or protein_array[i+lag]=='U' or protein_array[i]==' ' or protein_array[i+lag]==' '):
+        if(protein_array[i] in ['X', 'U', ' '] or protein_array[i+lag] in ['X', 'U', ' ']):
             continue
         phychem_sum+=(locate_feature[protein_array[i]][ac_fea]-mean_feature[ac_fea])*(locate_feature[protein_array[i+lag]][ac_fea]-mean_feature[ac_fea])
     phychem_sum/=(len(protein_array)-lag)

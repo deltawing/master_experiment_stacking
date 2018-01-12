@@ -268,11 +268,11 @@ def PseAAC(protein_array,locate_feature):
 
 def Auto_Covariance(protein_array,locate_feature):
     lg=30 #will affect 'ac_array' down below
-    AC_array=[[0 for i in range(30)]for j in range(7)]
+    AC_array=[[0 for i in range(lg)]for j in range(7)]
     mean_feature=[0 for i in range(7)]
     for j in range(len(mean_feature)):
         for i in range(len(protein_array)):
-            if (protein_array[i]=='X' or protein_array[i]=='U' or protein_array[i]==' '):
+            if (protein_array[i] in ['X', 'U', ' ']):
                 continue
             mean_feature[j]+=locate_feature[protein_array[i]][j]
     for k in range(len(mean_feature)):
@@ -289,7 +289,7 @@ def Auto_Covariance(protein_array,locate_feature):
 def AcSUM(protein_array,lag,mean_feature,ac_fea):
     phychem_sum=0
     for i in range (len(protein_array)-lag):
-        if(protein_array[i]=='X' or protein_array[i+lag]=='X' or protein_array[i]=='U' or protein_array[i+lag]=='U' or protein_array[i]==' ' or protein_array[i+lag]==' '):
+        if(protein_array[i] in ['X', 'U', ' '] or protein_array[i+lag] in ['X', 'U', ' ']):
             continue
         phychem_sum+=(locate_feature[protein_array[i]][ac_fea]-mean_feature[ac_fea])*(locate_feature[protein_array[i+lag]][ac_fea]-mean_feature[ac_fea])
     phychem_sum/=(len(protein_array)-lag)
